@@ -28,7 +28,7 @@ else
 }
 
 // Consulta SQL para crear una base de datos si no existe
-$consulta = "CREATE DATABASE IF NOT EXISTS gestiona;";
+$consulta = "CREATE DATABASE IF NOT EXISTS NuevaDB;";
 
 // Ejecutamos la consulta
 // query() devuelve false si hay error y true si todo va bien

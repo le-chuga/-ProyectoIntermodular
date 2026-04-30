@@ -11,7 +11,7 @@ require("usargestiona.php");
 
 $codigoProducto = $_REQUEST['codigoProducto'];
 $descripcionProducto = $_REQUEST['descripcionProducto'];
-$codigoProveedorProducto = $_REQUEST['codigoProveedorProducto'];
+$codigoProveedorProducto = $_REQUEST['codigoproveedorproducto'];
 $precioCompraProducto = $_REQUEST['precioCompraProducto'];
 $precioVentaProducto = $_REQUEST['precioVentaProducto'];
 $stockProducto = $_REQUEST['stockProducto'];
@@ -20,7 +20,7 @@ $stockProducto = $_REQUEST['stockProducto'];
 
 $consulta = "INSERT INTO productos 
 (codigoProducto, descripcionProducto, codigoProveedorProducto, precioCompraProducto, precioVentaProducto, stockProducto) 
-VALUES ($codigoProducto,$descripcionProducto,$codigoProveedorProducto,$precioCompraProducto,$precioVentaProducto,$stockProducto)";
+VALUES ($codigoProducto,$descripcionProducto,$codigoproveedorproducto,$precioCompraProducto,$precioVentaProducto,$stockProducto)";
 
 // Ejecutamos la consulta
 if (!@$mysqli->query($consulta)) 

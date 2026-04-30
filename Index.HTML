@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Productos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins', sans-serif; }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    h1 { margin:30px; }
+
+    .container {
+      width:90%;
+      max-width:1200px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding:20px;
+      border-radius:20px;
+    }
+
+    input, button {
+      width:100%;
+      padding:10px;
+      margin:8px 0;
+      border:none;
+      border-radius:10px;
+    }
+
+    button {
+      background: linear-gradient(90deg,#00c6ff,#0072ff);
+      color:white;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🚀 CRUD REAL</h1>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div class="card">
+    <h3>🔐 Iniciar Sesión</h3>
+
+    <form action="1_conectarBBDD.php" method="POST">
+      <input type="text" name="servidor" placeholder="Servidor" required>
+      <input type="text" name="usuario" placeholder="Usuario" required>
+      <input type="password" name="clave" placeholder="Contraseña" >
+      <button>Iniciar Sesión</button>
+    </form>
+  </div>
+
+  <!-- CONFIGURACIÓN BD -->
+  <div class="card">
+    <h3>⚙️ Configuración Base de Datos</h3>
+
+    <form action="usarGestiona.php" method="GET">
+      <button>Conectar a MySQL</button>
+    </form>
+
+    <form action="2_crearBBDD.php" method="GET">
+      <button>Crear Base de Datos</button>
+    </form>
+
+    <form action="3_crearTABLAS.php" method="GET">
+      <button>Crear Tablas</button>
+    </form>
+  </div>
+
+  <!-- CREAR -->
+  <div class="card">
+    <h3>➕ Crear Producto</h3>
+    <form action="5_Insertar_Productos.php" method="POST">
+      <input type="text" name="codigoProducto" placeholder="Código" required>
+      <input type="text" name="descripcionProducto" placeholder="Descripción" required>
+      <input type="text" name="codigoProveedorProducto" placeholder="Código Proveedor" required>
+      <input type="number" name="precioCompraProducto" placeholder="Precio Compra" required>
+      <input type="number" name="precioVentaProducto" placeholder="Precio Venta" required>
+      <input type="number" name="stockProducto" placeholder="Stock" required>
+      <button>Crear</button>
+    </form>
+  </div>
+
+  <!-- BUSCAR -->
+  <div class="card">
+    <h3>🔍 Buscar</h3>
+    <form action="" method="GET">
+      <input type="text" name="busqueda" placeholder="Buscar producto">
+      <button>Buscar</button>
+    </form>
+  </div>
+
+  <!-- ACTUALIZAR -->
+  <div class="card">
+    <h3>✏️ Actualizar</h3>
+    <form action="php/update.php" method="POST">
+      <input type="text" name="codigo" placeholder="Código" required>
+      <input type="text" name="descripcion" placeholder="Nueva descripción">
+      <input type="number" step="0.01" name="precio" placeholder="Nuevo precio">
+      <button>Actualizar</button>
+    </form>
+  </div>
+
+  <!-- ELIMINAR -->
+  <div class="card">
+    <h3>🗑️ Eliminar</h3>
+    <form action="php/delete.php" method="POST">
+      <input type="text" name="codigo" placeholder="Código" required>
+      <button>Eliminar</button>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

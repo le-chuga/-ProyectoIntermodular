@@ -1,4 +1,4 @@
-$consulta="CREATE TABLE IF NOT EXISTS proveedores ";
+$consulta="CREATE TABLE IF NOT EXISTS Nuevosproveedores ";
 $consulta.="(codigoproveedor CHAR(3),";
 $consulta.="nombreproveedor VARCHAR(40), ";
 $consulta.="direccionproveedor VARCHAR(80), ";
@@ -9,11 +9,11 @@ $consulta.="emailproveedor VARCHAR(80), ";
 $consulta.="PRIMARY KEY (codigoproveedor)); ";
 
 
-$consulta="CREATE TABLE IF NOT EXISTS productos ";
+$consulta="CREATE TABLE IF NOT EXISTS Nuevosproductos ";
 $consulta.="(codigoproducto CHAR(3),";
 $consulta.="descripcionproducto VARCHAR(50), ";
-$consulta.="codigoproveedorproducto CHAR(3), ";
+$consulta.="codigoproveedor CHAR(3), ";
 $consulta.="preciocompraproducto float, ";
 $consulta.="precioventaproducto float, ";
 $consulta.="stockproducto int(11), ";
-$consulta.="PRIMARY KEY (codigoproducto), FOREIGN KEY (codigoproveedorproducto) REFERENCES proveedores(codigoproveedor));";
+$consulta.="PRIMARY KEY (codigoproducto), FOREIGN KEY (codigoproveedor) REFERENCES Nuevosproveedores(codigoproveedor));";

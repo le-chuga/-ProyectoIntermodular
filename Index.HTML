@@ -61,21 +61,17 @@
     <form action="1_conectarBBDD.php" method="POST">
       <input type="text" name="servidor" placeholder="Servidor" required>
       <input type="text" name="usuario" placeholder="Usuario" required>
-      <input type="password" name="clave" placeholder="Contraseña" >
+      <input type="password" name="clave" placeholder="Contraseña">
       <button>Iniciar Sesión</button>
     </form>
   </div>
 
-  <!-- CONFIGURACIÓN BD -->
+  <!-- BD -->
   <div class="card">
-    <h3>⚙️ Configuración Base de Datos</h3>
-
-    <form action="usarGestiona.php" method="GET">
-      <button>Conectar a MySQL</button>
-    </form>
+    <h3>⚙️ Base de Datos</h3>
 
     <form action="2_crearBBDD.php" method="GET">
-      <button>Crear Base de Datos</button>
+      <button>Crear BD</button>
     </form>
 
     <form action="3_crearTABLAS.php" method="GET">
@@ -83,46 +79,32 @@
     </form>
   </div>
 
-  <!-- CREAR -->
+  <!-- PRODUCTO -->
   <div class="card">
-    <h3>➕ Crear Producto</h3>
+    <h3>➕ Producto</h3>
     <form action="5_Insertar_Productos.php" method="POST">
-      <input type="text" name="codigoProducto" placeholder="Código" required>
-      <input type="text" name="descripcionProducto" placeholder="Descripción" required>
-      <input type="text" name="codigoproveedorproducto" placeholder="Código Proveedor" required>
-      <input type="number" name="precioCompraProducto" placeholder="Precio Compra" required>
-      <input type="number" name="precioVentaProducto" placeholder="Precio Venta" required>
-      <input type="number" name="stockProducto" placeholder="Stock" required>
+      <input type="text" name="codigoproducto" placeholder="Código" required>
+      <input type="text" name="descripcionproducto" placeholder="Descripción" required>
+      <input type="text" name="codigoproveedorproducto" placeholder="Proveedor" required>
+      <input type="number" name="preciocompraproducto" placeholder="Precio compra" required>
+      <input type="number" name="precioventaproducto" placeholder="Precio venta" required>
+      <input type="number" name="stockproducto" placeholder="Stock" required>
       <button>Crear</button>
     </form>
   </div>
 
-  <!-- BUSCAR -->
+  <!-- PROVEEDOR -->
   <div class="card">
-    <h3>🔍 Buscar</h3>
-    <form action="" method="GET">
-      <input type="text" name="busqueda" placeholder="Buscar producto">
-      <button>Buscar</button>
-    </form>
-  </div>
-
-  <!-- ACTUALIZAR -->
-  <div class="card">
-    <h3>✏️ Actualizar</h3>
-    <form action="php/update.php" method="POST">
-      <input type="text" name="codigo" placeholder="Código" required>
-      <input type="text" name="descripcion" placeholder="Nueva descripción">
-      <input type="number" step="0.01" name="precio" placeholder="Nuevo precio">
-      <button>Actualizar</button>
-    </form>
-  </div>
-
-  <!-- ELIMINAR -->
-  <div class="card">
-    <h3>🗑️ Eliminar</h3>
-    <form action="php/delete.php" method="POST">
-      <input type="text" name="codigo" placeholder="Código" required>
-      <button>Eliminar</button>
+    <h3>🏢 Proveedor</h3>
+    <form action="4_Insertar_Proveedor.php" method="POST">
+      <input type="text" name="codigoproveedor" placeholder="Código" required>
+      <input type="text" name="nombreproveedor" placeholder="Nombre" required>
+      <input type="text" name="direccionproveedor" placeholder="Dirección" required>
+      <input type="text" name="telefonoproveedor" placeholder="Teléfono" required>
+      <input type="text" name="ciudadproveedor" placeholder="Ciudad" required>
+      <input type="text" name="provinciaproveedor" placeholder="Provincia" required>
+      <input type="email" name="emailproveedor" placeholder="Email" required>
+      <button>Crear</button>
     </form>
   </div>
 

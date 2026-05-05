@@ -1,76 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Info Proveedores — Sistema CRUD</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
-    --accent: #00e5ff; --accent2: #ff3c6e; --text: #e8e8f0; --muted: #5a5a7a;
-    --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
-  .topline {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
-    animation: shimmer 3s ease-in-out infinite;
-  }
-  @keyframes shimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
+  <meta charset="UTF-8">
+  <title>Info Proveedores — Sistema CRUD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
+      --accent: #00e5ff; --accent2: #ff3c6e; --text: #e8e8f0; --muted: #5a5a7a;
+      --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
 
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 28px 48px; border-bottom: 1px solid var(--border);
-  }
-  .logo { display: flex; align-items: baseline; gap: 12px; }
-  .logo-tag {
-    font-family: var(--mono); font-size: 10px; color: var(--accent);
-    letter-spacing: 3px; border: 1px solid var(--accent); padding: 3px 8px;
-  }
-  .logo h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-  .back {
-    font-family: var(--mono); font-size: 11px; color: var(--muted);
-    text-decoration: none; letter-spacing: 1px; transition: color 0.2s;
-  }
-  .back:hover { color: var(--accent); }
+    .topline {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
 
-  main { padding: 56px 48px; overflow-x: auto; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px; border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: baseline; gap: 12px; }
+    .logo-tag {
+      font-family: var(--mono); font-size: 10px; color: var(--accent);
+      letter-spacing: 3px; border: 1px solid var(--accent); padding: 3px 8px;
+    }
+    .logo h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .back {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      text-decoration: none; letter-spacing: 1px; transition: color 0.2s;
+    }
+    .back:hover { color: var(--accent); }
 
-  .section-label {
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    main { padding: 56px 48px; overflow-x: auto; }
 
-  /* Estilos para la tabla que devuelve info_proveedores.php */
-  #contenido table { width: 100%; border-collapse: collapse; }
-  #contenido table tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
-  #contenido table tr:first-child { border-bottom: 1px solid var(--border); }
-  #contenido table tr:hover:not(:first-child) { background: var(--surface); }
+    .section-label {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  #contenido table th {
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 2px; text-transform: uppercase; padding: 12px 16px;
-    text-align: left; font-weight: 400; border: none;
-  }
-  #contenido table td {
-    font-family: var(--mono); font-size: 12px; color: var(--text);
-    padding: 16px 16px; border: none;
-  }
-  #contenido table td:first-child { color: var(--accent); font-weight: 700; letter-spacing: 1px; }
+    .search-bar { display: flex; gap: 12px; margin-bottom: 32px; }
+    .search-bar input {
+      font-family: var(--mono); font-size: 13px; background: var(--surface);
+      border: 1px solid var(--border); color: var(--text); padding: 10px 16px;
+      outline: none; transition: border-color 0.2s; width: 280px;
+    }
+    .search-bar input:focus { border-color: var(--accent); }
+    .search-bar button {
+      font-family: var(--mono); font-size: 12px; background: transparent;
+      border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px;
+      cursor: pointer; letter-spacing: 1px; transition: background 0.2s, color 0.2s;
+    }
+    .search-bar button:hover { background: var(--accent); color: var(--bg); }
 
-  .loading {
-    font-family: var(--mono); font-size: 12px; color: var(--muted);
-    text-align: center; padding: 64px; letter-spacing: 2px;
-    animation: blink 1.2s ease-in-out infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-</style>
+    .not-found { font-family: var(--mono); font-size: 12px; color: var(--accent2); padding: 16px 0; }
+
+    /* Tabla listado */
+    #contenido table { width: 100%; border-collapse: collapse; }
+    #contenido table tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
+    #contenido table tr:hover:not(:first-child) { background: var(--surface); }
+    #contenido table th {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase; padding: 12px 16px;
+      text-align: left; font-weight: 400; border: none;
+    }
+    #contenido table td {
+      font-family: var(--mono); font-size: 12px; color: var(--text);
+      padding: 16px; border: none;
+    }
+    #contenido table td:first-child { color: var(--accent); font-weight: 700; letter-spacing: 1px; }
+
+    /* Card resultado búsqueda */
+    .result-card {
+      border: 1px solid var(--border); background: var(--surface);
+      padding: 24px; margin-bottom: 48px;
+    }
+    .result-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .result-code { font-family: var(--mono); font-size: 18px; color: var(--accent); font-weight: 700; }
+    .result-actions { display: flex; gap: 10px; }
+    .result-body { display: flex; flex-wrap: wrap; gap: 20px; }
+    .result-field { display: flex; flex-direction: column; gap: 6px; min-width: 160px; }
+    .field-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+    .field-value { font-family: var(--mono); font-size: 13px; color: var(--text); }
+    .field-value.editable input {
+      font-family: var(--mono); font-size: 13px; background: var(--bg);
+      border: 1px solid var(--accent); color: var(--text); padding: 6px 10px; outline: none; width: 100%;
+    }
+
+    /* Botones acción */
+    .btn-edit, .btn-delete, .btn-save, .btn-cancel {
+      font-family: var(--mono); font-size: 11px; padding: 7px 14px;
+      border: 1px solid; cursor: pointer; letter-spacing: 1px;
+      background: transparent; transition: background 0.2s, color 0.2s;
+    }
+    .btn-edit   { border-color: var(--accent);  color: var(--accent);  }
+    .btn-edit:hover   { background: var(--accent);  color: var(--bg); }
+    .btn-delete { border-color: var(--accent2); color: var(--accent2); }
+    .btn-delete:hover { background: var(--accent2); color: var(--bg); }
+    .btn-save   { border-color: #7fff7f; color: #7fff7f; }
+    .btn-save:hover   { background: #7fff7f; color: var(--bg); }
+    .btn-cancel { border-color: var(--muted);  color: var(--muted);  }
+    .btn-cancel:hover { background: var(--muted);  color: var(--bg); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px;
+      font-family: var(--mono); font-size: 12px; padding: 12px 20px;
+      border: 1px solid; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s; letter-spacing: 1px;
+    }
+    .toast.show         { opacity: 1; }
+    .toast.show.success { border-color: #7fff7f; color: #7fff7f; background: var(--surface); }
+    .toast.show.error   { border-color: var(--accent2); color: var(--accent2); background: var(--surface); }
+
+    .loading {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      text-align: center; padding: 64px; letter-spacing: 2px;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  </style>
 </head>
 <body>
+
 <div class="topline"></div>
+
 <header>
   <div class="logo">
     <span class="logo-tag">02</span>
@@ -78,16 +141,156 @@
   </div>
   <a class="back" href="panel.html">← Volver al panel</a>
 </header>
+
 <main>
-  <div class="section-label">listado de proveedores</div>
-  <div id="contenido"><div class="loading">— Cargando datos —</div></div>
+  <!-- Buscador -->
+  <div class="section-label">buscar proveedor</div>
+  <div class="search-bar">
+    <input id="inputCodigo" type="text" placeholder="Introduce el código del proveedor...">
+    <button onclick="buscar()">→ Buscar</button>
+  </div>
+  <div id="resultado"></div>
+
+  <!-- Listado completo -->
+  <div class="section-label" style="margin-top: 48px">listado completo</div>
+  <div id="contenido">
+    <div class="loading">— Cargando datos —</div>
+  </div>
 </main>
 
+<div class="toast" id="toast"></div>
+
 <script>
-  fetch('info_proveedores.php')
-    .then(r => r.text())
-    .then(html => { document.getElementById('contenido').innerHTML = html; })
-    .catch(() => { document.getElementById('contenido').innerHTML = '<div class="loading">— Error al cargar datos —</div>'; });
+  let datoActual = null;
+
+  recargarTabla();
+
+  document.getElementById('inputCodigo').addEventListener('keydown', e => {
+    if (e.key === 'Enter') buscar();
+  });
+
+  function buscar() {
+    const codigo = document.getElementById('inputCodigo').value.trim().toUpperCase();
+    if (!codigo) return;
+
+    fetch(`buscar_proveedor.php?codigo=${encodeURIComponent(codigo)}`)
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          datoActual = res.data;
+          renderCard(res.data, false);
+        } else {
+          document.getElementById('resultado').innerHTML =
+            `<p class="not-found">✗ ${res.error}</p>`;
+        }
+      })
+      .catch(() => mostrarToast('Error de conexión', true));
+  }
+
+  function renderCard(d, editar) {
+    const campos = [
+      { key: 'nombreproveedor', label: 'nombre del Proveedor', type: 'text'   },
+      { key: 'direccionproveedor', label: 'Direccion del proveedor', type: 'text' },
+      { key: 'telefonoproveedor',  label: 'Teléfono del proveedor',  type: 'text' },
+      { key: 'ciudadproveedor',        label: 'Ciudad del proveedor',        type: 'text' },
+      { key: 'provinciaproveedor',        label: 'Provincia del proveedor',        type: 'text' },
+      { key: 'emailproveedor',        label: 'Email del proveedor',        type: 'text' },
+    ];
+
+    const fieldsHTML = campos.map(c => `
+      <div class="result-field">
+        <div class="field-label">${c.label}</div>
+        <div class="field-value ${editar ? 'editable' : ''}">
+          ${editar
+            ? `<input data-key="${c.key}" type="${c.type}" value="${escHtml(d[c.key] ?? '')}">`
+            : escHtml(d[c.key] ?? '—')}
+        </div>
+      </div>`).join('');
+
+    const acciones = editar
+      ? `<button class="btn-save"   onclick="guardar()">✓ Guardar</button>
+         <button class="btn-cancel" onclick="cancelarEdicion()">✗ Cancelar</button>`
+      : `<button class="btn-edit"   onclick="activarEdicion()">✎ Editar</button>
+         <button class="btn-delete" onclick="confirmarBorrado('${escHtml(d.codigoproveedor)}')">✕ Borrar</button>`;
+
+    document.getElementById('resultado').innerHTML = `
+      <div class="result-card">
+        <div class="result-header">
+          <span class="result-code">${escHtml(d.codigoproveedor)}</span>
+          <div class="result-actions">${acciones}</div>
+        </div>
+        <div class="result-body">${fieldsHTML}</div>
+      </div>`;
+  }
+
+  function activarEdicion()  { renderCard(datoActual, true);  }
+  function cancelarEdicion() { renderCard(datoActual, false); }
+
+  function guardar() {
+    const inputs = document.querySelectorAll('#resultado input[data-key]');
+    const body   = new FormData();
+    body.append('codigoproveedor', datoActual.codigoproveedor);
+
+   
+
+    inputs.forEach(i => body.append(i.dataset.key, i.value));
+    fetch('modificar_proveedor.php', { method: 'POST', body })
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          inputs.forEach(i => { datoActual[i.dataset.key] = i.value; });
+          renderCard(datoActual, false);
+          recargarTabla();
+          mostrarToast('✓ ' + res.msg);
+        } else {
+          mostrarToast('✗ ' + res.error, true);
+        }
+      })
+      .catch((e) => mostrarToast('Error de conexión'+e, true));
+  }
+
+  function confirmarBorrado(codigo) {
+    if (!confirm(`¿Seguro que quieres borrar el proveedor "${codigo}"? Esta acción no se puede deshacer.`)) return;
+
+    const body = new FormData();
+    body.append('codigoproveedor', codigo);
+
+    fetch('borrar_proveedor.php', { method: 'POST', body })
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          document.getElementById('resultado').innerHTML = '';
+          document.getElementById('inputCodigo').value   = '';
+          recargarTabla();
+          mostrarToast('✓ ' + res.msg);
+        } else {
+          mostrarToast('✗ ' + res.error, true);
+        }
+      })
+      .catch(() => mostrarToast('Error de conexión', true));
+  }
+
+  function recargarTabla() {
+    fetch('info_proveedores.php')
+      .then(r => r.text())
+      .then(html => { document.getElementById('contenido').innerHTML = html; })
+      .catch(() => { document.getElementById('contenido').innerHTML = '<div class="loading">— Error al cargar datos —</div>'; });
+  }
+
+  function mostrarToast(msg, error = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = 'toast show ' + (error ? 'error' : 'success');
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,  '&amp;')
+      .replace(/</g,  '&lt;')
+      .replace(/>/g,  '&gt;')
+      .replace(/"/g,  '&quot;');
+  }
 </script>
 </body>
 </html>

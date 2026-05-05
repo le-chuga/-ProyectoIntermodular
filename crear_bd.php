@@ -1,5 +1,22 @@
 <?php
-require("usarGestiona.php");
+mysqli_report(MYSQLI_REPORT_ERROR);
+
+// Conectar SIN seleccionar BD (aún no existe)
+$mysqli = new mysqli("localhost", "root", "");
+
+if ($mysqli->connect_errno) {
+    die("Error conexión MySQL");
+}
+
+/* CREAR BD */
+$consulta = "CREATE DATABASE IF NOT EXISTS NuevaDB";
+
+if (!$mysqli->query($consulta)) {
+    die("Error BD: " . $mysqli->error);
+}
+
+/* SELECCIONAR BD (ahora ya existe) */
+$mysqli->select_db("NuevaDB");
 
 /* PROVEEDORES */
 $consulta = "CREATE TABLE IF NOT EXISTS Nuevosproveedores (
@@ -12,7 +29,9 @@ provinciaproveedor VARCHAR(20),
 emailproveedor VARCHAR(80)
 )";
 
-if (!$mysqli->query($consulta)) die($mysqli->error);
+if (!$mysqli->query($consulta)) {
+    die($mysqli->error);
+}
 
 /* PRODUCTOS */
 $consulta = "CREATE TABLE IF NOT EXISTS Nuevosproductos (
@@ -25,7 +44,11 @@ stockproducto INT,
 FOREIGN KEY (codigoproveedorproducto) REFERENCES Nuevosproveedores(codigoproveedor)
 )";
 
-if (!$mysqli->query($consulta)) die($mysqli->error);
+if (!$mysqli->query($consulta)) {
+    die($mysqli->error);
+}
 
-echo "Tablas creadas";
+/* REDIRECCIÓN LIMPIA */
+header("Location: login.html");
+exit;
 ?>

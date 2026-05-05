@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Info Productos — Sistema CRUD</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e;
+    --accent: #00e5ff; --accent2: #ff3c6e; --text: #e8e8f0; --muted: #5a5a7a;
+    --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+  .topline {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 48px; border-bottom: 1px solid var(--border);
+  }
+  .logo { display: flex; align-items: baseline; gap: 12px; }
+  .logo-tag {
+    font-family: var(--mono); font-size: 10px; color: var(--accent2);
+    letter-spacing: 3px; border: 1px solid var(--accent2); padding: 3px 8px;
+  }
+  .logo h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .back {
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    text-decoration: none; letter-spacing: 1px; transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+
+  main { padding: 56px 48px; overflow-x: auto; }
+
+  .section-label {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Estilos para la tabla que devuelve info_productos.php */
+  #contenido table { width: 100%; border-collapse: collapse; }
+  #contenido table tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
+  #contenido table tr:hover:not(:first-child) { background: var(--surface); }
+
+  #contenido table th {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase; padding: 12px 16px;
+    text-align: left; font-weight: 400; border: none;
+  }
+  #contenido table td {
+    font-family: var(--mono); font-size: 12px; color: var(--text);
+    padding: 16px 16px; border: none;
+  }
+  #contenido table td:first-child  { color: var(--accent2); font-weight: 700; letter-spacing: 1px; }
+  #contenido table td:nth-child(4),
+  #contenido table td:nth-child(5) { color: #7fff7f; }
+  #contenido table td:nth-child(6) { color: var(--accent); }
+
+  .loading {
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    text-align: center; padding: 64px; letter-spacing: 2px;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<header>
+  <div class="logo">
+    <span class="logo-tag">01</span>
+    <h1>Info Productos</h1>
+  </div>
+  <a class="back" href="panel.html">← Volver al panel</a>
+</header>
+<main>
+  <div class="section-label">listado de productos</div>
+  <div id="contenido"><div class="loading">— Cargando datos —</div></div>
+</main>
+
+<script>
+  fetch('info_productos.php')
+    .then(r => r.text())
+    .then(html => { document.getElementById('contenido').innerHTML = html; })
+    .catch(() => { document.getElementById('contenido').innerHTML = '<div class="loading">— Error al cargar datos —</div>'; });
+</script>
+</body>
+</html>

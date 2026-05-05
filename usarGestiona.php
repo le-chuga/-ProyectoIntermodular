@@ -4,7 +4,7 @@ mysqli_report(MYSQLI_REPORT_ERROR);
 $mysqli = new mysqli("localhost", "root", "");
 
 if ($mysqli->connect_errno) {
-    die("Error conexión MySQL");
+   die("Error conexión MySQL");
 }
 
 if (!$mysqli->select_db("NuevaDB")) {

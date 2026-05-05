@@ -1,114 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestión de Productos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Inicio — Sistema CRUD</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #00e5ff;
+    --accent2: #ff3c6e;
+    --text: #e8e8f0;
+    --muted: #5a5a7a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+  }
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .topline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
 
-  <style>
-    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins', sans-serif; }
+  .center {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-    body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 32px;
+    opacity: 0.9;
+  }
 
-    h1 { margin:30px; }
+  h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
 
-    .container {
-      width:90%;
-      max-width:1200px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
-    }
+  h1 span {
+    color: var(--accent);
+  }
 
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding:20px;
-      border-radius:20px;
-    }
+  .subtitle {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 56px;
+  }
 
-    input, button {
-      width:100%;
-      padding:10px;
-      margin:8px 0;
-      border:none;
-      border-radius:10px;
-    }
+  .btn-start {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 48px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .btn-start::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent2);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+    z-index: 0;
+  }
+  .btn-start:hover::before { transform: scaleX(1); }
+  .btn-start span { position: relative; z-index: 1; }
 
-    button {
-      background: linear-gradient(90deg,#00c6ff,#0072ff);
-      color:white;
-      cursor:pointer;
-    }
-  </style>
+  .footer-tag {
+    position: fixed;
+    bottom: 32px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+</style>
 </head>
-
 <body>
 
-<h1>🚀 CRUD REAL</h1>
+<div class="topline"></div>
 
-<div class="container">
-
-  <!-- LOGIN -->
-  <div class="card">
-    <h3>🔐 Iniciar Sesión</h3>
-
-    <form action="1_conectarBBDD.php" method="POST">
-      <input type="text" name="servidor" placeholder="Servidor" required>
-      <input type="text" name="usuario" placeholder="Usuario" required>
-      <input type="password" name="clave" placeholder="Contraseña">
-      <button>Iniciar Sesión</button>
-    </form>
-  </div>
-
-  <!-- BD -->
-  <div class="card">
-    <h3>⚙️ Base de Datos</h3>
-
-    <form action="2_crearBBDD.php" method="GET">
-      <button>Crear BD</button>
-    </form>
-
-    <form action="3_crearTABLAS.php" method="GET">
-      <button>Crear Tablas</button>
-    </form>
-  </div>
-
-  <!-- PRODUCTO -->
-  <div class="card">
-    <h3>➕ Producto</h3>
-    <form action="5_Insertar_Productos.php" method="POST">
-      <input type="text" name="codigoproducto" placeholder="Código" required>
-      <input type="text" name="descripcionproducto" placeholder="Descripción" required>
-      <input type="text" name="codigoproveedorproducto" placeholder="Proveedor" required>
-      <input type="number" name="preciocompraproducto" placeholder="Precio compra" required>
-      <input type="number" name="precioventaproducto" placeholder="Precio venta" required>
-      <input type="number" name="stockproducto" placeholder="Stock" required>
-      <button>Crear</button>
-    </form>
-  </div>
-
-  <!-- PROVEEDOR -->
-  <div class="card">
-    <h3>🏢 Proveedor</h3>
-    <form action="4_Insertar_Proveedor.php" method="POST">
-      <input type="text" name="codigoproveedor" placeholder="Código" required>
-      <input type="text" name="nombreproveedor" placeholder="Nombre" required>
-      <input type="text" name="direccionproveedor" placeholder="Dirección" required>
-      <input type="text" name="telefonoproveedor" placeholder="Teléfono" required>
-      <input type="text" name="ciudadproveedor" placeholder="Ciudad" required>
-      <input type="text" name="provinciaproveedor" placeholder="Provincia" required>
-      <input type="email" name="emailproveedor" placeholder="Email" required>
-      <button>Crear</button>
-    </form>
-  </div>
-
+<div class="center">
+  <div class="tag">Sistema de gestión</div>
+  <h1>CRUD<br><span>System</span></h1>
+  <p class="subtitle">MySQL · PHP · Apache · XAMPP</p>
+  <form action="crear_bd.php" method="POST">
+    <button class="btn-start" type="submit"><span>→ Iniciar sistema</span></button>
+  </form>
 </div>
+
+<span class="footer-tag">v1.0 · localhost</span>
 
 </body>
 </html>
